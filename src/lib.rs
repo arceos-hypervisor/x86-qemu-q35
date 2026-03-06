@@ -52,13 +52,13 @@ fn current_cpu_id() -> usize {
     }
 }
 
-unsafe extern "C" fn rust_entry(magic: usize, mbi: usize) {
+unsafe extern fn rust_entry(magic: usize, mbi: usize) {
     if magic == self::boot::MULTIBOOT_BOOTLOADER_MAGIC {
         axplat::call_main(current_cpu_id(), mbi);
     }
 }
 
-unsafe extern "C" fn rust_entry_secondary(_magic: usize) {
+unsafe extern fn rust_entry_secondary(_magic: usize) {
     #[cfg(feature = "smp")]
     if _magic == self::boot::MULTIBOOT_BOOTLOADER_MAGIC {
         axplat::call_secondary_main(current_cpu_id());
@@ -66,7 +66,7 @@ unsafe extern "C" fn rust_entry_secondary(_magic: usize) {
 }
 
 pub fn cpu_count() -> usize {
-    unsafe extern "C" {
+    unsafe extern {
         static SMP: usize;
     }
 

@@ -21,6 +21,11 @@ struct PowerImpl;
 
 #[impl_plat_interface]
 impl PowerIf for PowerImpl {
+    /// Returns the number of CPU cores on the platform.
+    fn cpu_num() -> usize {
+        crate::cpu_count()
+    }
+
     /// Bootstraps the given CPU core with the given initial stack (in physical
     /// address).
     ///
